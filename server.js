@@ -15,8 +15,16 @@ app.get("/", function (req, res) {
 });
 
 app.get("/HamzaResume.pdf", (req, res) => {
-res.download(__dirname+"/public/CV/Hamza's Resume.pdf")
+    res.download(__dirname + "/public/CV/Hamza's Resume.pdf")
 });
+
+app.post("/contact", (req, res) => {
+    console.log(req.body);
+    res.redirect("/");
+
+})
+
+
 app.listen(port || 3000, function () {
     console.log("system is work on" + 3000);
 })
