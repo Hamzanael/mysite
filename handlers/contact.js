@@ -1,4 +1,5 @@
 const {Contact} = require("./database");
+const email = require("./email.js");
 const contact = (app) => {
 
     app.post("/contact", (req, res) => {
@@ -12,6 +13,8 @@ const contact = (app) => {
         });
         newContact.save(() => {
             res.sendStatus(202);
+            email({message: data.message, subject: data.subject, name: data.name, email: data.email});
+
         });
     });
 }
