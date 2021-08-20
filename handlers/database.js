@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://localhost:27017/CV', {
+mongoose.connect('mongodb://hamzacv:YnEWWT6RTguGsfiSeUaH71lvbyKihSWTAifryc0LwBmvHv6VgZ31LoYMjqCLJxfAm6CUn0BRYUFOo0pIYPbIvg==@hamzacv.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@hamzacv@/cv', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });

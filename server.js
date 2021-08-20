@@ -15,9 +15,6 @@ contact(app);
 projects(app);
 
 
-app.get("/test", (req, res) => {
-
-})
 app.get("/", (req, res) => res.render('index', {title: "Hamza's site"}));
 
 
