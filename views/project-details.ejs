@@ -11,11 +11,11 @@
                 <div class="col-lg-8">
                     <div class="portfolio-details-slider swiper-container">
                         <div class="swiper-wrapper align-items-center">
-                            <% web.images.foreach(function(image)) { %>
-                            <div class="swiper-slide">
-                                <img src="assets/img/portfolio/<%=image %> " alt="">
-                            </div>
-                            <% } %>
+                            <% project.images.forEach(function(image) { %>
+                                <div class="swiper-slide">
+                                    <img src="<%= image %> " alt="">
+                                </div>
+                            <% }); %>
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
@@ -25,17 +25,18 @@
                     <div class="portfolio-info">
                         <h3>Project information</h3>
                         <ul>
-                            <li><strong>Category</strong>: <%=web.category %></li>
-                            <li><strong>Client</strong>: <%= web.client %></li>
-                            <li><strong>Project date</strong>: <%= web.ProjectDate %></li>
-                            <li><strong>Project code</strong>: <a href="code/<%= web.code %> "><%= web.title %> </a>
+                            <li><strong>Category</strong>: <%= project.category %></li>
+                            <li><strong>Client</strong>: <%= project.client %></li>
+                            <li><strong>Project date</strong>: <%= project.ProjectDate %></li>
+                            <li><strong>Project link</strong>: <a
+                                        href="code/<%= project.code %> "><%= project.title %> </a>
                             </li>
                         </ul>
                     </div>
                     <div class="portfolio-description">
-                        <h2><%= web.title %> </h2>
+                        <h2><%= project.title %> </h2>
                         <p>
-                            <%= web.description %>
+                            <%= project.description %>
                         </p>
                     </div>
                 </div>
@@ -46,10 +47,6 @@
     </section>
 
 </main>
-
-<div id="preloader"></div>
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
 
 <%- include('partials/footer'); -%>
 

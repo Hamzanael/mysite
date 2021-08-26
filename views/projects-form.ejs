@@ -2,7 +2,7 @@
 <body>
 <div class="container" style="margin-top:1.5rem;padding: 2rem ">
     <div class="row">
-        <form method="post" action="/newProject">
+        <form method="post" action="/newProject" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" name="name" class="form-control" id="name">
@@ -19,10 +19,19 @@
                 <label for="code" class="form-label">code</label>
                 <input type="text" name="code" class="form-control" id="code">
             </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">description</label>
+                <input type="text" name="description" class="form-control" id="description">
+            </div>
+            <div class="mb-3">
+                <label for="images" class="form-label">site images</label>
+                <input type="file" name="projectImages" class="form-control" id="images" multiple>
+            </div>
+
             <div class=" mb-3 form-check">
-                <input class="form-check-input" type="radio" name="category" id="java" value="java">
-                <label class="form-check-label" for="java">
-                    Java
+                <input class="form-check-input" type="radio" name="category" id="app" value="app">
+                <label class="form-check-label" for="app">
+                    app
                 </label>
             </div>
             <div class=" mb-3 form-check">

@@ -1,5 +1,5 @@
-const {Contact} = require("./database");
-const email = require("./email.js");
+const {Contact} = require("../connectors/database");
+const email = require("../connectors/email.js");
 const contact = (app) => {
 
     app.post("/contact", (req, res) => {

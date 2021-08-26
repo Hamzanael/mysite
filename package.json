@@ -4,8 +4,8 @@
   "description": "my cv",
   "main": "server.js",
   "scripts": {
-    "test": "node test.js",
-    "start": "node server.js"
+    "test": "node ./test/dummyTest.js",
+    "start": "node ./server/server.js"
   },
   "keywords": [
     "CV",
@@ -18,6 +18,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "mongoose": "^5.13.7",
+    "multer": "^1.4.3",
     "nodemailer": "^6.6.3"
   }
 }
