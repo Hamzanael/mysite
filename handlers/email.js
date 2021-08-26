@@ -3,13 +3,13 @@ const transporter = nodemailer.createTransport({
     port: 465,
     host: "smtp.gmail.com",
     auth: {
-        user: 'hnael99my@gmail.com',
+        user: 'hamzacontactmail@gmail.com',
         pass: '19991128',
     },
     secure: true,
 });
 const mailData = {
-    from: 'hnael99my@gmail.com',
+    from: 'hamzacontactmail@gmail.com',
     to: 'hnael65@gmail.com',
     subject: 'New Customer wants to contact us',
     text: '',
