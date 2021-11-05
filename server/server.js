@@ -10,6 +10,6 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 router(app);
 
-app.listen(port || 3000, function () {
-    console.log("system is work on" + 3000);
+app.listen(port || 3001, function () {
+    console.log("system is work on" + 3001);
 })
