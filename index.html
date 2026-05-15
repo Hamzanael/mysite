@@ -1130,10 +1130,17 @@
   .reveal.in { opacity: 1; transform: translateY(0); }
 
   /* ====== HIDDEN CV PDF VIEW ====== */
-  .cv-print {
+  .cv-print-host {
     position: fixed;
-    left: -10000px;
+    left: -100000px;
     top: 0;
+    pointer-events: none;
+    z-index: -1;
+    width: 794px;
+    height: 0;
+    overflow: visible;
+  }
+  .cv-print {
     width: 794px; /* A4 width at 96dpi */
     background: #ffffff;
     color: #1a1a1a;
@@ -1859,7 +1866,8 @@
 <div class="toast" id="toast">↑ ↑ ↓ ↓ ← → ← → B A &nbsp;·&nbsp; +1 LIFE</div>
 
 <!-- ====== Hidden CV (rendered to PDF) ====== -->
-<div class="cv-print" id="cv-print" aria-hidden="true">
+<div class="cv-print-host" aria-hidden="true">
+<div class="cv-print" id="cv-print">
   <h1>Hamza Nael</h1>
   <div class="cv-role">Senior Software Engineer</div>
   <div class="cv-contact">
@@ -2012,6 +2020,7 @@
     <p style="font-size: 10pt; color: #2a2a2a;">Strong foundation in computer architecture, networks, and systems — applied directly to current work on distributed systems and low-level protocols.</p>
   </div>
   <p style="font-size: 10pt; color: #2a2a2a; margin-top: 6px;"><b style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9.5pt; text-transform: uppercase; letter-spacing: 0.04em; color: #0d0d0d;">Languages</b> &nbsp; Native Arabic · Professional English — including Arabic-language NLP work and RTL-aware UI development.</p>
+</div>
 </div>
 
 <style>
