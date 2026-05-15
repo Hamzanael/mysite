@@ -1,506 +1,2446 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hamza Nael — Senior Software Engineer</title>
+<meta name="description" content="Senior software engineer based in Amman, Jordan. Distributed systems at Careem; tech lead on Analytick, Jordan's national call center platform.">
+<meta property="og:title" content="Hamza Nael — Senior Software Engineer">
+<meta property="og:description" content="Distributed systems, full-stack delivery, multi-tenant SaaS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --bg: #06060a;
+    --bg-elevated: rgba(20, 20, 26, 0.7);
+    --bg-card: rgba(14, 14, 18, 0.62);
+    --fg: #ece9e0;
+    --fg-soft: rgba(236, 233, 224, 0.75);
+    --muted: #6b6a64;
+    --accent: #c5f76b;
+    --accent-glow: rgba(197, 247, 107, 0.55);
+    --border: rgba(236, 233, 224, 0.08);
+    --border-strong: rgba(236, 233, 224, 0.18);
+    --serif: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
 
-    <title>Hamza's CV </title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-    <link rel="apple-touch-icon" sizes="180x180" href="public/assets/img/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="public/assets/img/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="public/assets/img/icons/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="public/assets/img/icons/favicon-16x16.png">
-    <link rel="manifest" href="public/assets/img/icons/site.webmanifest">
-    <link rel="mask-icon" href="public/assets/img/icons/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="apple-mobile-web-app-title" content="Hamza's site">
-    <meta name="application-name" content="Hamza's site">
-    <meta name="msapplication-TileColor" content="#2b5797">
-    <meta name="msapplication-TileImage" content="public/assets/img/icons/mstile-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-            rel="stylesheet">
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
 
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css"/>
-    <link href="public/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  /* ====== 3D background canvas (persistent) ====== */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
 
-    <link href="public/assets/css/style.css" rel="stylesheet">
+  /* Soft vignette + grain overlay over canvas */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 0%, transparent 0%, rgba(6, 6, 10, 0.45) 70%, var(--bg) 100%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, transparent 30%, rgba(6, 6, 10, 0.6) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+
+  main, .topbar, footer { position: relative; z-index: 3; }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ====== TOPBAR ====== */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(6, 6, 10, 0.5);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    max-width: 1180px;
+    margin: 0 auto;
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .topbar-brand {
+    color: var(--fg);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar-brand::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .topbar-nav {
+    display: flex;
+    gap: 28px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .topbar-nav a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .topbar-nav a:hover, .topbar-nav a.active { color: var(--accent); }
+  .topbar-time { font-variant-numeric: tabular-nums; }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  @media (max-width: 720px) {
+    .topbar-nav { display: none; }
+  }
+
+  /* ====== HERO ====== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 60px;
+    position: relative;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 32px;
+  }
+  .hero-meta::before {
+    content: '';
+    width: 36px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(60px, 13vw, 180px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .hero h1 .dot {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero h1 .reveal-line {
+    display: block;
+    overflow: hidden;
+  }
+  .hero h1 .reveal-line span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .hero h1.in .reveal-line span { transform: translateY(0); }
+  .hero h1.in .reveal-line:nth-child(2) span { transition-delay: 0.12s; }
+
+  .hero-tagline {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(20px, 2.6vw, 30px);
+    line-height: 1.45;
+    color: var(--fg);
+    max-width: 760px;
+    margin-bottom: 48px;
+    font-variation-settings: "opsz" 48;
+  }
+  .hero-tagline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--fg);
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    letter-spacing: 0.04em;
+    background: rgba(14, 14, 18, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+  .pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -8px var(--accent-glow);
+  }
+  .pill-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+  .pill-primary:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: floatHint 2.6s ease-in-out infinite;
+  }
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+  }
+  @keyframes floatHint {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+    50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+  }
+  @media (max-width: 720px) { .scroll-hint { display: none; } }
+
+  /* ====== SECTIONS ====== */
+  .section {
+    padding: 140px 0;
+    position: relative;
+  }
+  .section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 600px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+  .section-label {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 48px;
+    font-size: 11.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .section-num {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .section h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(38px, 5.6vw, 68px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    margin-bottom: 72px;
+    font-variation-settings: "opsz" 72;
+    max-width: 900px;
+  }
+  .section h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+
+  /* ====== ABOUT ====== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-text {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 1.55;
+    font-variation-settings: "opsz" 36;
+  }
+  .about-text p + p { margin-top: 22px; }
+  .about-text em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .about-side {
+    font-size: 13px;
+    padding: 32px;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-side::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+  .about-side dl {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 14px 24px;
+  }
+  .about-side dt {
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    padding-top: 2px;
+  }
+  .about-side dd { color: var(--fg); }
+  .status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--accent);
+    margin-right: 8px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  /* ====== WORK · 3D CARDS ====== */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    perspective: 1400px;
+  }
+  .work-grid .featured { grid-column: 1 / -1; }
+
+  .card-3d {
+    position: relative;
+    border-radius: 18px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-card);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s, box-shadow 0.4s;
+    will-change: transform;
+    cursor: default;
+  }
+  .card-3d::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      600px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(197, 247, 107, 0.12), transparent 45%
+    );
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .card-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 10%, var(--accent), transparent 90%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .card-3d:hover {
+    border-color: rgba(197, 247, 107, 0.35);
+    box-shadow: 0 30px 60px -30px rgba(197, 247, 107, 0.15), 0 0 0 1px rgba(197, 247, 107, 0.05);
+  }
+  .card-3d:hover::before, .card-3d:hover::after { opacity: 1; }
+
+  .card-3d .inner {
+    padding: 40px;
+    position: relative;
+    transform: translateZ(40px);
+    transform-style: preserve-3d;
+  }
+  .card-3d.featured .inner { padding: 56px; }
+
+  .card-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 11px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 3px;
+    letter-spacing: 0.18em;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+    transform: translateZ(20px);
+  }
+  .card-flag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--bg);
+    border-radius: 50%;
+  }
+
+  .card-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    transform: translateZ(15px);
+  }
+  .card-num .accent { color: var(--accent); }
+
+  .card-3d h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 38px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    font-variation-settings: "opsz" 60;
+    transform: translateZ(30px);
+  }
+  .card-3d.featured h3 {
+    font-size: clamp(40px, 5.4vw, 60px);
+    margin-bottom: 22px;
+    font-variation-settings: "opsz" 80;
+  }
+  .card-3d h3 .dot {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 300;
+  }
+  .card-meta {
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    transform: translateZ(20px);
+  }
+  .card-desc {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--fg-soft);
+    font-variation-settings: "opsz" 30;
+    margin-bottom: 26px;
+    transform: translateZ(20px);
+  }
+  .card-3d.featured .card-desc {
+    font-size: 21px;
+    max-width: 780px;
+    color: var(--fg);
+  }
+  .card-desc em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .card-stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    color: var(--fg-soft);
+    transform: translateZ(15px);
+  }
+  .card-stack b {
+    color: var(--accent);
+    font-weight: 500;
+    margin-right: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+  }
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    transform: translateZ(15px);
+  }
+  .tag {
+    font-size: 10px;
+    padding: 5px 11px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition: all 0.2s;
+  }
+  .card-3d:hover .tag {
+    border-color: rgba(197, 247, 107, 0.4);
+    color: var(--fg);
+  }
+
+  /* Floating geometric accent in each card */
+  .card-orb {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    width: 60px;
+    height: 60px;
+    transform: translateZ(60px);
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .card-3d:hover .card-orb {
+    opacity: 1;
+    transform: translateZ(80px) rotate(40deg);
+  }
+  .card-orb svg { width: 100%; height: 100%; overflow: visible; }
+  .card-orb .ring { fill: none; stroke: var(--accent); stroke-width: 1; opacity: 0.5; }
+  .card-orb .dot-c { fill: var(--accent); }
+
+  /* ====== LEADERSHIP ====== */
+  .lead-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    perspective: 1400px;
+  }
+  .lead-card {
+    position: relative;
+    padding: 36px;
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    background: var(--bg-card);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s, box-shadow 0.4s;
+    will-change: transform;
+    overflow: hidden;
+  }
+  .lead-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 0%), rgba(197, 247, 107, 0.1), transparent 45%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .lead-card::after {
+    content: '';
+    position: absolute;
+    left: 36px;
+    top: 0;
+    width: 36px;
+    height: 1px;
+    background: var(--accent);
+    transform: translateZ(20px);
+  }
+  .lead-card:hover {
+    border-color: rgba(197, 247, 107, 0.35);
+    box-shadow: 0 24px 50px -28px rgba(197, 247, 107, 0.18);
+  }
+  .lead-card:hover::before { opacity: 1; }
+  .lead-role {
+    font-size: 10.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    font-weight: 500;
+    transform: translateZ(20px);
+  }
+  .lead-card h4 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 18px;
+    font-variation-settings: "opsz" 36;
+    transform: translateZ(30px);
+  }
+  .lead-card p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--fg-soft);
+    transform: translateZ(15px);
+  }
+  .lead-card p + p { margin-top: 10px; }
+  .lead-card .proof {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    transform: translateZ(15px);
+  }
+  .lead-card .proof span {
+    font-size: 10.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .lead-card .proof b {
+    color: var(--accent);
+    font-weight: 500;
+    margin-right: 6px;
+    font-family: var(--mono);
+  }
+
+  /* ====== CAPABILITIES ====== */
+  .cap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    overflow: hidden;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .cap-cell {
+    background: rgba(14, 14, 18, 0.7);
+    padding: 32px 28px;
+    position: relative;
+    transition: background 0.4s;
+  }
+  .cap-cell:hover {
+    background: rgba(22, 22, 28, 0.85);
+  }
+  .cap-cell::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .cap-cell:hover::before { width: 100%; }
+  .cap-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 22px;
+    background: rgba(197, 247, 107, 0.04);
+    transition: all 0.3s;
+  }
+  .cap-cell:hover .cap-icon {
+    border-color: rgba(197, 247, 107, 0.5);
+    background: rgba(197, 247, 107, 0.08);
+    transform: rotate(-4deg);
+  }
+  .cap-icon svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .cap-cell h4 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 22px;
+    margin-bottom: 14px;
+    font-variation-settings: "opsz" 32;
+    letter-spacing: -0.01em;
+  }
+  .cap-cell ul { list-style: none; }
+  .cap-cell li {
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--fg-soft);
+    padding: 5px 0 5px 16px;
+    position: relative;
+  }
+  .cap-cell li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px;
+    width: 6px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* ====== AI PRACTICE ====== */
+  .ai-card {
+    position: relative;
+    padding: 56px;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    overflow: hidden;
+  }
+  .ai-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(800px circle at 0% 0%, rgba(197, 247, 107, 0.12), transparent 50%),
+      radial-gradient(600px circle at 100% 100%, rgba(197, 247, 107, 0.06), transparent 50%);
+    pointer-events: none;
+  }
+  .ai-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .ai-rank {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    border: 1px solid rgba(197, 247, 107, 0.4);
+    background: rgba(197, 247, 107, 0.08);
+    border-radius: 999px;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .ai-rank::before {
+    content: '#1';
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .ai-card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4.4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin-bottom: 22px;
+    font-variation-settings: "opsz" 60;
+    max-width: 760px;
+    position: relative;
+  }
+  .ai-card h3 em { font-style: italic; color: var(--accent); font-weight: 300; }
+  .ai-card p {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--fg);
+    max-width: 760px;
+    margin-bottom: 36px;
+    font-variation-settings: "opsz" 30;
+    position: relative;
+  }
+  .ai-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 36px;
+    position: relative;
+  }
+  .ai-stat {
+    padding: 24px 22px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s;
+  }
+  .ai-stat:hover {
+    border-color: rgba(197, 247, 107, 0.4);
+    transform: translateY(-2px);
+  }
+  .ai-stat-num {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 42px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    margin-bottom: 10px;
+    font-variation-settings: "opsz" 60;
+  }
+  .ai-stat-label {
+    font-size: 11px;
+    color: var(--fg-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+  }
+  .ai-stat-label b { color: var(--fg); font-weight: 500; }
+
+  @media (max-width: 980px) {
+    .lead-grid { grid-template-columns: 1fr; }
+    .cap-grid { grid-template-columns: 1fr 1fr; }
+    .ai-card { padding: 36px 28px; }
+    .ai-stats { grid-template-columns: 1fr; }
+    .ai-stat-num { font-size: 36px; }
+  }
+  @media (max-width: 720px) {
+    .cap-grid { grid-template-columns: 1fr; }
+    .lead-card { padding: 28px; }
+  }
+
+  /* ====== STACK · 3D CONSTELLATION ====== */
+  .stack-wrap {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .stack-cells {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .stack-cell {
+    padding: 24px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--bg-card);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: all 0.3s;
+  }
+  .stack-cell:hover {
+    border-color: rgba(197, 247, 107, 0.3);
+    background: rgba(20, 20, 26, 0.85);
+    transform: translateY(-2px);
+  }
+  .stack-cell h4 {
+    font-size: 10.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .stack-cell ul { list-style: none; }
+  .stack-cell li {
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--fg-soft);
+    border-bottom: 1px dashed var(--border);
+  }
+  .stack-cell li:last-child { border-bottom: none; }
+
+  /* 3D Tech Sphere (CSS) */
+  .constellation {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 440px;
+    margin: 0 auto;
+    perspective: 1100px;
+  }
+  .constellation-inner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+    cursor: grab;
+  }
+  .constellation-inner.dragging { cursor: grabbing; }
+  .tag-3d {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform-origin: 0 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--fg-soft);
+    background: rgba(14, 14, 18, 0.6);
+    border: 1px solid var(--border-strong);
+    padding: 5px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    pointer-events: auto;
+    user-select: none;
+  }
+  .tag-3d:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(197, 247, 107, 0.08);
+  }
+  .constellation::before {
+    content: '';
+    position: absolute;
+    inset: 30%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 247, 107, 0.18), transparent 65%);
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(20px);
+  }
+
+  /* ====== EXPERIENCE ====== */
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 56px;
+    padding: 44px 0;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0;
+    height: 1px;
+    width: 0;
+    background: var(--accent);
+    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .exp-item:hover::before { width: 100%; }
+  .exp-period {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding-top: 6px;
+  }
+  .exp-item h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px;
+    margin-bottom: 6px;
+    font-variation-settings: "opsz" 40;
+  }
+  .exp-item h3 .sub {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-style: normal;
+    margin-left: 6px;
+  }
+  .exp-item h3 .sub.accent { color: var(--accent); }
+  .exp-role {
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .exp-item ul { list-style: none; }
+  .exp-item li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--fg-soft);
+    padding-left: 22px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .exp-item li::before {
+    content: '+';
+    position: absolute;
+    left: 0; top: 0;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ====== EDUCATION ====== */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .edu-card {
+    padding: 36px;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    background: var(--bg-card);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: all 0.3s;
+  }
+  .edu-card:hover {
+    border-color: rgba(197, 247, 107, 0.35);
+    transform: translateY(-2px);
+  }
+  .edu-card h4 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 26px;
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 36;
+  }
+  .edu-meta {
+    font-size: 10.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .edu-card p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .edu-card p.body { color: var(--fg-soft); margin-top: 12px; line-height: 1.6; }
+
+  /* ====== FOOTER ====== */
+  footer {
+    padding: 160px 0 60px;
+    position: relative;
+  }
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 600px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+  .footer-cta {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    margin-bottom: 56px;
+    font-variation-settings: "opsz" 144;
+  }
+  .footer-cta em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: center;
+  }
+  .footer-link {
+    color: var(--fg);
+    text-decoration: none;
+    padding-bottom: 4px;
+    font-size: 14px;
+    transition: all 0.25s;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .footer-link:hover { color: var(--accent); border-color: var(--accent); }
+  .footer-meta {
+    margin-top: 96px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* ====== REVEAL ====== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ====== HIDDEN CV PDF VIEW ====== */
+  .cv-print {
+    position: fixed;
+    left: -10000px;
+    top: 0;
+    width: 794px; /* A4 width at 96dpi */
+    background: #ffffff;
+    color: #1a1a1a;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.45;
+    padding: 38px 44px;
+    box-sizing: border-box;
+  }
+  .cv-print * { box-sizing: border-box; }
+  .cv-print h1 {
+    font-size: 28pt;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+    color: #0d0d0d;
+  }
+  .cv-print .cv-role {
+    font-size: 11pt;
+    color: #2d6b1f;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .cv-print .cv-contact {
+    font-size: 9.5pt;
+    color: #4a4a4a;
+    margin-bottom: 22px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .cv-print .cv-contact span { display: inline-block; }
+  .cv-print .cv-contact b { color: #2d6b1f; font-weight: 600; margin-right: 4px; }
+  .cv-print h2 {
+    font-size: 9pt;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #2d6b1f;
+    border-bottom: 1.5px solid #2d6b1f;
+    padding-bottom: 4px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  }
+  .cv-print p { margin-bottom: 8px; }
+  .cv-print .cv-summary { font-size: 10.5pt; color: #2a2a2a; }
+  .cv-print .cv-entry { margin-bottom: 12px; page-break-inside: avoid; }
+  .cv-print .cv-entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+  .cv-print .cv-entry-title {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #0d0d0d;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .cv-print .cv-entry-date {
+    font-size: 9pt;
+    color: #6a6a6a;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.04em;
+  }
+  .cv-print .cv-entry-sub {
+    font-size: 10pt;
+    color: #2d6b1f;
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+  .cv-print ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style: disc;
+  }
+  .cv-print ul li {
+    font-size: 10pt;
+    color: #2a2a2a;
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+  .cv-print .cv-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 22px;
+  }
+  .cv-print .cv-skills {
+    font-size: 10pt;
+    color: #2a2a2a;
+  }
+  .cv-print .cv-skills b {
+    color: #0d0d0d;
+    font-weight: 600;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 6px;
+  }
+  .cv-print .cv-skills p { margin-bottom: 4px; }
+
+  /* ====== TOAST ====== */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 200;
+    box-shadow: 0 8px 32px rgba(197, 247, 107, 0.3);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ====== REDUCED MOTION ====== */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    #bg-canvas { display: none; }
+    .reveal { opacity: 1; transform: none; }
+    .hero h1 .reveal-line span { transform: none; }
+    .constellation-inner { transform: none !important; }
+  }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 980px) {
+    .work-grid { grid-template-columns: 1fr; }
+    .stack-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .exp-item { grid-template-columns: 1fr; gap: 14px; }
+    .edu-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    .topbar-inner { padding: 12px 20px; }
+    .section { padding: 90px 0; }
+    .hero { padding: 100px 0 40px; }
+    .card-3d .inner, .card-3d.featured .inner { padding: 28px; }
+    .stack-cells { grid-template-columns: 1fr; }
+    .footer-meta { flex-direction: column; gap: 16px; }
+    .card-orb { width: 42px; height: 42px; right: 20px; top: 20px; }
+  }
+</style>
 </head>
-
-
 <body>
-<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
-<header id="header" class="d-flex flex-column justify-content-center">
+<!-- Persistent 3D background -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-    <nav id="navbar" class="navbar nav-menu">
-        <ul>
-            <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a>
-            </li>
-            <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-            <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a>
-            </li>
-            <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a>
-            </li>
-            <!-- <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a>
-            </li> -->
-        </ul>
+<!-- Topbar -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-brand">HAMZA NAEL</span>
+    <nav class="topbar-nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#ai">AI</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
     </nav>
+    <span class="topbar-time" id="time">— — AMM</span>
+  </div>
+</div>
 
-</header>
+<main>
 
-
-<section id="hero" class="d-flex flex-column justify-content-center">
-    <div class="container" data-aos="zoom-in" data-aos-delay="100">
-        <h1>Hamza Nael</h1>
-        <p>I'm <span class="typed" data-typed-items="Freelancer,Java Developer,Full stack Developer"></span></p>
-        <div class="social-links">
-            <a href="https://www.facebook.com/h.nael99" class="facebook"><i class="bx bxl-facebook"></i></a>
-            <a href="https://www.instagram.com/hamza_nael99/" class="instagram"><i class="bx bxl-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/hamza-nael-53a8081b3" class="linkedin"><i
-                    class="bx bxl-linkedin"></i></a>
-        </div>
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-meta reveal">SENIOR SOFTWARE ENGINEER · AMMAN, JORDAN</div>
+      <h1 id="hero-title">
+        <span class="reveal-line"><span>Hamza</span></span>
+        <span class="reveal-line"><span>Nael<span class="dot">.</span></span></span>
+      </h1>
+      <p class="hero-tagline reveal">I build production systems for a living — and I build them on the side, too. Currently exploring <em>senior full-stack roles</em> where architecture, performance, and craft all need to be right.</p>
+      <div class="hero-actions reveal">
+        <a class="pill pill-primary" href="mailto:Hnael99@gmail.com">Get in touch →</a>
+        <button class="pill" id="download-cv" type="button" aria-label="Download CV as PDF">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span id="download-cv-label">Download CV</span>
+        </button>
+        <a class="pill" href="#work">View work</a>
+        <a class="pill" href="tel:+962790558636">+962 79 055 8636</a>
+      </div>
     </div>
-</section>
+    <div class="scroll-hint" aria-hidden="true">Scroll</div>
+  </section>
 
-<main id="main">
-
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>About</h2>
-                <p>Full stack web developer with background knowledge of MERN stacks and Java, along with a knack of
-                    building
-                    applications with utmost efficiency. Strong professional with a BE in computer willing to be an
-                    asset for an
-                    organization.</p>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <img src="public/assets/img/profile-img.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="col-lg-8 pt-4 pt-lg-0 content">
-                    <h3>Computer Engineering & Full stack Developer.</h3>
-                    <p class="fst-italic">
-                        Seeking a challenging software engineering position in an organization that rewards
-                        dedication
-                        and
-                        proﬁciency.
-                    </p>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong>
-                                    <span>28 Nov 1999</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span> <a
-                                        href="http://www.hnael.me/" class="black">www.hnael.me</a></span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong>
-                                    <span>+962 79 0558636</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>City:</strong>
-                                    <span>Amman, Jordan</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>22</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong>
-                                    <span>Bachelor</span>
-                                </li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong>
-                                    <span>hnael99@gmail.com</span>
-                                </li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong>
-                                    <span>Available</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row" style="text-align: center;">
-                        <div class="about-btn-container">
-                            <a type="button" href="#contact" class="about-btn about-btn-hire "> Hire me </a>
-                            <a type="button" href="/public/CV/Hamza's Resume.pdf"
-                               class="about-btn about-btn-resume scrollto" download> Get
-                                Resume </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+  <!-- ====== ABOUT ====== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">01</span>&nbsp;◇&nbsp;About</div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>Senior software engineer with six years across event-driven distributed systems, full-stack delivery, and developer platforms. Currently at <em>Careem</em>, where I lead the migration from synchronous APIs to Kafka Streams and gRPC, and where I'm recognized as the organization's #1 AI power user.</p>
+          <p>I also lead <em>Analytick</em> — a multi-tenant platform I architected and delivered with a cross-functional squad of four engineers plus product and sales. It now powers <em>Jordan's national call center</em>, handling hundreds of thousands of citizen interactions every day.</p>
+          <p>I gravitate to problems where architecture, performance, and developer experience all have to be right at once.</p>
         </div>
-    </section><!-- End About Section -->
+        <aside class="about-side reveal">
+          <dl>
+            <dt>Based</dt><dd>Amman · UTC+3</dd>
+            <dt>Open to</dt><dd>Remote · EU · MENA · Relocation</dd>
+            <dt>Languages</dt><dd>English · Arabic (native)</dd>
+            <dt>Years</dt><dd>6 years shipping</dd>
+            <dt>Status</dt><dd><span class="status-dot"></span>Open to senior roles</dd>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
 
+  <!-- ====== LEADERSHIP ====== -->
+  <section class="section" id="leadership">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">02</span>&nbsp;◇&nbsp;Leadership</div>
+      <h2 class="reveal">How I <em>lead</em>.</h2>
 
-    <!-- ======= Skills Section ======= -->
-    <section id="skills" class="skills section-bg">
-        <div class="container" data-aos="fade-up">
+      <div class="lead-grid">
 
-            <div class="section-title">
-                <h2>Programming Skills </h2>
-            </div>
-            <div class="row skills-content">
-                <div class="col-lg-6">
-                    <div class="progress">
-                        <span class="skill">Java <i class="val">100%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                 aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="progress">
-                        <span class="skill">JSP<i class="val">90%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
+        <article class="lead-card reveal" data-tilt-soft>
+          <div class="lead-role">Tech Lead · Architect</div>
+          <h4>Analytick — squad of four engineers plus product &amp; sales</h4>
+          <p>I lead a cross-functional squad from architecture through to production. We took a multi-tenant SaaS from blank slate to Jordan's national call center — handling hundreds of thousands of citizen interactions every day.</p>
+          <div class="proof">
+            <span><b>4</b>Engineers</span>
+            <span><b>+</b>Product &amp; Sales</span>
+            <span><b>1</b>National-scale platform</span>
+          </div>
+        </article>
 
-                    <div class="progress">
-                        <span class="skill">SQL <i class="val">80%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <article class="lead-card reveal" data-tilt-soft>
+          <div class="lead-role">Migration Lead · Careem</div>
+          <h4>Sync REST → Kafka Streams across the billing platform</h4>
+          <p>Led the architectural shift from synchronous API chains to async Kafka Streams for billing and Statement-of-Accounts. Coordinated cross-vertical work spanning Rides, Food, and Quik to eliminate cascading failures and ensure eventual consistency.</p>
+          <div class="proof">
+            <span><b>3</b>Verticals coordinated</span>
+            <span><b>0</b>Cascading failures</span>
+          </div>
+        </article>
 
-                <div class="col-lg-6">
-                    <div class="progress">
-                        <span class="skill">Spring <i class="val">70%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
+        <article class="lead-card reveal" data-tilt-soft>
+          <div class="lead-role">Platform Initiative · Careem</div>
+          <h4>Co-initiated the "Golden Path" CI/CD framework</h4>
+          <p>Co-initiated the CI/CD framework now mandatory for every web app at Careem. Designed and shipped the Shared Billing Library that let the Superportal team deliver User Management in under a month.</p>
+          <div class="proof">
+            <span><b>Org-wide</b>Adoption</span>
+            <span><b>300%</b>Velocity boost (Superportal)</span>
+          </div>
+        </article>
 
-                    <div class="progress">
-                        <span class="skill">Spring Boot <i class="val">75%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
+        <article class="lead-card reveal" data-tilt-soft>
+          <div class="lead-role">Incident Command · Production Ops</div>
+          <h4>Self-hosted K3s on a national-scale tenant — owned end-to-end</h4>
+          <p>Own production operations on a self-hosted K3s cluster with ArgoCD GitOps. Diagnosed and recovered from MongoDB HA quorum loss after a secret regeneration, then permanently pinned the configuration to prevent recurrence.</p>
+          <div class="proof">
+            <span><b>K3s + ArgoCD</b>GitOps</span>
+            <span><b>1</b>P0 incident recovered &amp; hardened</span>
+          </div>
+        </article>
 
-                    <div class="progress">
-                        <span class="skill">AWS services <i class="val">55%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      </div>
+    </div>
+  </section>
 
-                <div class="col-lg-6">
-                    <div class="progress">
-                        <span class="skill">HTML <i class="val">100%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                 aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
+  <!-- ====== TECHNICAL CAPABILITIES ====== -->
+  <section class="section" id="capabilities">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">03</span>&nbsp;◇&nbsp;Technical Capabilities</div>
+      <h2 class="reveal">Where I have <em>real depth</em>.</h2>
 
-                    <div class="progress">
-                        <span class="skill">CSS <i class="val">80%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
+      <div class="cap-grid reveal">
 
-                    <div class="progress">
-                        <span class="skill">JavaScript <i class="val">90%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="progress">
-                        <span class="skill">Docker <i class="val">80%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="progress">
-                        <span class="skill">NoSQL (MongoDB) <i class="val">90%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="progress">
-                        <span class="skill">React JS <i class="val">70%</i></span>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section id="resume" class="resume">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Resume</h2>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <h3 class="resume-title">Summary</h3>
-                    <div class="resume-item pb-0">
-                        <h4>Hamza Nael</h4>
-                        <p><em>Innovative and creative with 2+ years of experience designing and
-                            developing on premise and cloud apps using Agile-driven methodology.</em></p>
-                        <ul>
-                            <li>Amman, Jordan</li>
-                            <li>(962) 79-0558636</li>
-                            <li>hnael@gmail.com</li>
-                        </ul>
-                    </div>
-
-                    <h3 class="resume-title">Education</h3>
-                    <div class="resume-item">
-                        <h4>Bachelor of Computer Engineering</h4>
-                        <h5>2017 - 2021</h5>
-                        <p><em>University of Jordan </em></p>
-                        <p>Graduated with a very good rating as GPA (3.11)</p>
-                    </div>
-                    <div class="resume-item">
-                        <h4>Tawjihi</h4>
-                        <h5>2016 - 2017</h5>
-                        <p><em>Pioneer Education School </em></p>
-                        <p>I have entered the school by excellence scholarship that covered 100% from my study fees
-                            and I achieved a GAP equals to 92.8 </p>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <h3 class="resume-title">Professional Experience</h3>
-                    <div class="resume-item">
-                        <h4>Full-Stack Developer </h4>
-                        <h5>2022 - present</h5>
-                        <p><a href="https://www.expediagroup.com/home/default.aspx"><em>Expedia Group</em></a></p>
-                        <ul>
-                            <li>Working on the developer experience team to improve the developer experience for
-                                developers working on the Expedia Group platform.
-                            </li>
-                            <li>Developing <a href="https://github.com/ExpediaGroup/openworld-sdk-java">Open World SDK
-                                for JVM.</a></li>
-                            <li>Creating the CI/CD cycle for <a href="https://github.com/ExpediaGroup/openworld-sdk-java-generators">open world SDK</a>.</li>
-                            <li>Automating the generation process for open world SDK.</li>
-                        </ul>
-                    </div>
-                    <div class="resume-item">
-                        <h4>Java Developer </h4>
-                        <h5>2020 - 2022</h5>
-                        <p><em>TELELOGX, Amman, Jordan </em></p>
-                        <ul>
-                            <li>Designing, implementing, and maintaining Java applications that
-                                are often high-volume and low-latency, required for mission- critical systems
-                            </li>
-                            <li>Writing well-designed, efficient, and testable code.</li>
-                            <li>Conducting software analysis, programming, testing, and
-                                debugging
-                            </li>
-                            <li>Managing Java and Java EE application development</li>
-                            <li>diagnosing and fixing network problems and hardware or
-                                software faults
-                            </li>
-                            <li>building REST & SOAP Api</li>
-                            <li>building new product for the company</li>
-                            <li>Integrate our app with 3rd party software</li>
-                        </ul>
-                    </div>
-                    <div class="resume-item">
-                        <h4>Freelancer </h4>
-                        <h5>2019 - Present</h5>
-                        <p><em>Some of my projects:</em></p>
-
-                        <ul>
-                            <li><a class="black" href="https://foodsciencetechnology.org/"> Food Science and Technology journal  </a></li>
-                            <li><a class="black" href="https://crocotechnologies.com/">C.TECH</a></li>
-                            <li><a class="black">Durra Ticketing System</a></li>
-                            <li><a class="black">General Static chatbot to integrate with banking systems and more</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-    <section id="services" class="services">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Services</h2>
-
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon-box iconbox-blue">
-                        <div class="icon">
-                            <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="none" stroke-width="0" fill="#f5f5f5"
-                                      d="M300,521.0016835830174C376.1290562159157,517.8887921683347,466.0731472004068,529.7835943286574,510.70327084640275,468.03025145048787C554.3714126377745,407.6079735673963,508.03601936045806,328.9844924480964,491.2728898941984,256.3432110539036C474.5976632858925,184.082847569629,479.9380746630129,96.60480741107993,416.23090153303,58.64404602377083C348.86323505073057,18.502131276798302,261.93793281208167,40.57373210992963,193.5410806939664,78.93577620505333C130.42746243093433,114.334589627462,98.30271207620316,179.96522072025542,76.75703585869454,249.04625023123273C51.97151888228291,328.5150500222984,13.704378332031375,421.85034740162234,66.52175969318436,486.19268352777647C119.04800174914682,550.1803526380478,217.28368757567262,524.383925680826,300,521.0016835830174">
-                                </path>
-                            </svg>
-                            <i class="bx bx-server"></i>
-                        </div>
-                        <h4><a href="">Hosting websites</a></h4>
-                        <p>Hosting service for any websites with any different backend/frontend language</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
-                     data-aos-delay="200">
-                    <div class="icon-box iconbox-orange ">
-                        <div class="icon">
-                            <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="none" stroke-width="0" fill="#f5f5f5"
-                                      d="M300,582.0697525312426C382.5290701553225,586.8405444964366,449.9789794690241,525.3245884688669,502.5850820975895,461.55621195738473C556.606425686781,396.0723002908107,615.8543463187945,314.28637112970534,586.6730223649479,234.56875336149918C558.9533121215079,158.8439757836574,454.9685369536778,164.00468322053177,381.49747125262974,130.76875717737553C312.15926192815925,99.40240125094834,248.97055460311594,18.661163978235184,179.8680185752513,50.54337015887873C110.5421016452524,82.52863877960104,119.82277516462835,180.83849132639028,109.12597500060166,256.43424936330496C100.08760227029461,320.3096726198365,92.17705696193138,384.0621239912766,124.79988738764834,439.7174275375508C164.83382741302287,508.01625554203684,220.96474134820875,577.5009287672846,300,582.0697525312426">
-                                </path>
-                            </svg>
-                            <i class="bx bx-paint"></i>
-                        </div>
-                        <h4><a href="">Design websites</a></h4>
-                        <p>Design any kind of websites based on the customer needs</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in"
-                     data-aos-delay="300">
-                    <div class="icon-box iconbox-pink">
-                        <div class="icon">
-                            <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="none" stroke-width="0" fill="#f5f5f5"
-                                      d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781">
-                                </path>
-                            </svg>
-                            <i class=" bx bxs-data"></i>
-                        </div>
-                        <h4><a href="">Real time data</a></h4>
-                        <p>Creating websites that contains real time data presented as charts</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in"
-                     data-aos-delay="100">
-                    <div class="icon-box iconbox-yellow">
-                        <div class="icon">
-                            <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="none" stroke-width="0" fill="#f5f5f5"
-                                      d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813">
-                                </path>
-                            </svg>
-                            <i class="bx bx-layer"></i>
-                        </div>
-                        <h4><a href="">On premise applications</a></h4>
-                        <p>Create any type of application that needs to install on the client side only</p>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in"
-                     data-aos-delay="100">
-                    <div class="icon-box iconbox-blue">
-                        <div class="icon">
-                            <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="none" stroke-width="0" fill="#f5f5f5"
-                                      d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813">
-                                </path>
-                            </svg>
-                            <i class="bx bxl-windows"></i>
-                        </div>
-                        <h4><a href="">Server Client application</a></h4>
-                        <p>Making a server client applications based on the clients needs</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in"
-                     data-aos-delay="100">
-                    <div class="icon-box iconbox-pink">
-                        <div class="icon">
-                            <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="none" stroke-width="0" fill="#f5f5f5"
-                                      d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813">
-                                </path>
-                            </svg>
-                            <i class="bx bx-vector"></i>
-                        </div>
-                        <h4><a href="">Middleware application</a></h4>
-                        <p>Connecting different applications with each other by creating a custom Middleware</p>
-                    </div>
-                </div>
-            </div>
-
+        <div class="cap-cell">
+          <div class="cap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="12" cy="12" r="2.5"/><path d="M6 8.5v7M18 8.5v7M8.5 6h7M8.5 18h7M8 8l8 8M16 8l-8 8"/></svg>
+          </div>
+          <h4>Distributed Systems</h4>
+          <ul>
+            <li>Event-driven Kafka Streams for cross-vertical billing</li>
+            <li>REST → gRPC migration on hot internal paths</li>
+            <li>Eventual consistency &amp; cascading-failure removal</li>
+          </ul>
         </div>
 
+        <div class="cap-cell">
+          <div class="cap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <h4>Multi-Tenant SaaS</h4>
+          <ul>
+            <li>Subdomain-isolated tenant architecture (Analytick)</li>
+            <li>Hybrid URL-rewrite + custom hooks in TanStack Router</li>
+            <li>Embedded analytics &amp; real-time meeting integration</li>
+          </ul>
+        </div>
 
-    </section>
+        <div class="cap-cell">
+          <div class="cap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"/></svg>
+          </div>
+          <h4>Real-Time Systems</h4>
+          <ul>
+            <li>Self-hosted LiveKit/WebRTC at national scale</li>
+            <li>NAT hairpin, loopback, Redis pub/sub debugging</li>
+            <li>Binary TCP protocols for hardware diagnostics</li>
+          </ul>
+        </div>
+
+        <div class="cap-cell">
+          <div class="cap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 17l8 4 8-4"/></svg>
+          </div>
+          <h4>Production Operations</h4>
+          <ul>
+            <li>Self-hosted K3s with ArgoCD GitOps</li>
+            <li>Helm, Docker, GitHub Actions, Jenkins pipelines</li>
+            <li>SigNoz · ClickHouse · Metabase observability stack</li>
+          </ul>
+        </div>
+
+        <div class="cap-cell">
+          <div class="cap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg>
+          </div>
+          <h4>Full-Stack Delivery</h4>
+          <ul>
+            <li>Spring Boot + TanStack Router + Postgres / Mongo</li>
+            <li>Micro-frontend architecture (Careem for Business)</li>
+            <li>Kotlin + GraphQL BFFs (Expedia DEVHub)</li>
+          </ul>
+        </div>
+
+        <div class="cap-cell">
+          <div class="cap-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 4l-5 8 5 8M16 4l5 8-5 8"/><path d="M14 4l-4 16"/></svg>
+          </div>
+          <h4>Platform &amp; DX</h4>
+          <ul>
+            <li>Open World SDK (JVM) — full CI/CD lifecycle</li>
+            <li>Shared Billing Library — unlocked 300% velocity</li>
+            <li>Co-initiated "Golden Path" — now mandatory at Careem</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== AI PRACTICE ====== -->
+  <section class="section" id="ai">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">04</span>&nbsp;◇&nbsp;AI Practice</div>
+      <h2 class="reveal">AI as <em>production infrastructure</em>.</h2>
+
+      <div class="ai-card reveal" data-tilt-soft>
+        <div class="ai-rank">Architect &amp; Builder · Spring AI · Multi-Tenant</div>
+        <h3>I built the <em>AI agent platform</em> powering Analytick.</h3>
+        <p>A production AI service running across Analytick's multi-tenant deployments — handling chat workflows, call transcription, and AI-driven QA evaluation. Multi-provider abstraction (OpenAI, Google Vertex Gemini, OpenRouter, DeepSeek, and self-hosted Ollama) via a factory/registry pattern, with per-tenant model configs encrypted at rest and decrypted on demand. Nine first-class agent tools — ticket query &amp; creation, conversation history, document search, plus bilingual NSR entity/service/sector lookups for the Jordanian government use case. Full MCP (Model Context Protocol) support so agents can load external tool servers over STDIO or SSE.</p>
+        <p>pgvector-backed RAG with org_id + agent_id filters enforcing multi-tenant isolation; Vertex AI embeddings, top-K retrieval at a 0.7 similarity threshold, and bidirectional PDF text handling for Arabic documents. Every LLM call and tool invocation is recorded to a MongoDB session-flow collection for audit. Built on Spring AI · Kotlin · virtual threads · OpenTelemetry. Outside Analytick, I'm also Careem's <em>#1 organization-wide AI power user</em> — automated 80%+ of new test coverage and accelerated legacy migrations.</p>
+
+        <div class="ai-stats">
+          <div class="ai-stat">
+            <div class="ai-stat-num">5</div>
+            <div class="ai-stat-label"><b>LLM providers</b> behind one factory/registry abstraction</div>
+          </div>
+          <div class="ai-stat">
+            <div class="ai-stat-num">9</div>
+            <div class="ai-stat-label">First-class <b>agent tools</b> + MCP transport support</div>
+          </div>
+          <div class="ai-stat">
+            <div class="ai-stat-num">80%+</div>
+            <div class="ai-stat-label">Of new <b>test coverage</b> AI-automated at Careem</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== WORK ====== -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">05</span>&nbsp;◇&nbsp;Selected Work</div>
+      <h2 class="reveal">Things I <em>built</em>, ship, or operate.</h2>
+
+      <div class="work-grid">
+
+        <article class="card-3d featured reveal" data-tilt>
+          <div class="card-orb" aria-hidden="true">
+            <svg viewBox="-30 -30 60 60">
+              <circle class="ring" r="28"/>
+              <circle class="ring" r="20"/>
+              <circle class="ring" r="12"/>
+              <circle class="dot-c" r="3"/>
+              <g style="transform-origin: 0 0; animation: spin 16s linear infinite;">
+                <circle class="dot-c" cx="28" cy="0" r="2"/>
+              </g>
+              <g style="transform-origin: 0 0; animation: spin 10s linear infinite reverse;">
+                <circle class="dot-c" cx="20" cy="0" r="1.5"/>
+              </g>
+            </svg>
+          </div>
+          <div class="inner">
+            <span class="card-flag">Flagship · National Scale · Live</span>
+            <h3>Analytick<span class="dot">.</span></h3>
+            <p class="card-desc">A multi-tenant SaaS platform I architected and delivered as tech lead of a cross-functional squad — four engineers plus product and sales. Now powers <em>Jordan's national call center</em>, serving hundreds of thousands of citizen interactions every day.</p>
+            <div class="card-stack">
+              <div><b>Frontend</b> TypeScript · React · TanStack Router</div>
+              <div><b>Backend</b> Spring Boot · MongoDB · PostgreSQL · Redis</div>
+              <div><b>Data</b> ClickHouse · JasperReports</div>
+              <div><b>Infra</b> K3s · ArgoCD · Helm · Docker · SigNoz</div>
+            </div>
+            <div class="card-tags">
+              <span class="tag">National Scale</span>
+              <span class="tag">Tech Lead</span>
+              <span class="tag">Multi-Tenant</span>
+              <span class="tag">Production</span>
+              <span class="tag">SaaS</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d reveal" data-tilt>
+          <div class="card-orb" aria-hidden="true">
+            <svg viewBox="-30 -30 60 60">
+              <polygon class="ring" points="0,-26 22,13 -22,13"/>
+              <polygon class="ring" points="0,16 -14,-8 14,-8" style="transform: rotate(180deg); transform-origin: 0 0;"/>
+              <circle class="dot-c" r="2.5"/>
+            </svg>
+          </div>
+          <div class="inner">
+            <div class="card-num">[ <span class="accent">02</span> / 06 ]</div>
+            <h3>Real-Time Meeting Platform</h3>
+            <div class="card-meta">LiveKit · WebRTC · Production</div>
+            <p class="card-desc">The real-time meeting layer of Analytick — self-hosted LiveKit serving the national call center's live agent operations. Debugged NAT hairpin, loopback candidates, and stale Redis pub/sub subscriptions to ship stable rooms and egress.</p>
+            <div class="card-tags">
+              <span class="tag">Real-Time</span>
+              <span class="tag">WebRTC</span>
+              <span class="tag">Infra</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d reveal" data-tilt>
+          <div class="card-orb" aria-hidden="true">
+            <svg viewBox="-30 -30 60 60">
+              <rect class="ring" x="-22" y="-22" width="44" height="44" rx="3"/>
+              <rect class="ring" x="-14" y="-14" width="28" height="28" rx="2" style="transform: rotate(45deg); transform-origin: 0 0;"/>
+              <circle class="dot-c" r="2"/>
+            </svg>
+          </div>
+          <div class="inner">
+            <div class="card-num">[ <span class="accent">03</span> / 06 ]</div>
+            <h3>Event-Driven Billing Platform</h3>
+            <div class="card-meta">Careem · Kafka Streams · gRPC</div>
+            <p class="card-desc">Led the architectural shift from synchronous API chains to async Kafka Streams for Careem's billing and Statement-of-Accounts platform. Eliminated cascading failures across Rides, Food, and Quik verticals while ensuring eventual consistency.</p>
+            <div class="card-tags">
+              <span class="tag">Distributed</span>
+              <span class="tag">Kafka</span>
+              <span class="tag">Scale</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d reveal" data-tilt>
+          <div class="card-orb" aria-hidden="true">
+            <svg viewBox="-30 -30 60 60">
+              <path class="ring" d="M -24 0 L 0 -24 L 24 0 L 0 24 Z"/>
+              <path class="ring" d="M -14 0 L 0 -14 L 14 0 L 0 14 Z"/>
+              <circle class="dot-c" r="2.5"/>
+            </svg>
+          </div>
+          <div class="inner">
+            <div class="card-num">[ <span class="accent">04</span> / 06 ]</div>
+            <h3>Careem for Business Portal</h3>
+            <div class="card-meta">Full-Stack · Micro-Frontends</div>
+            <p class="card-desc">Led full-stack delivery of the Careem for Business (C4B) portal using a micro-frontend architecture. Designed the Business Selector logic for many-to-many enterprise-to-partner relationships — serving real B2B customers across Careem's regions.</p>
+            <div class="card-tags">
+              <span class="tag">React</span>
+              <span class="tag">Micro-FE</span>
+              <span class="tag">Enterprise</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d reveal" data-tilt>
+          <div class="card-orb" aria-hidden="true">
+            <svg viewBox="-30 -30 60 60">
+              <circle class="ring" r="24"/>
+              <line class="ring" x1="-22" y1="0" x2="22" y2="0"/>
+              <line class="ring" x1="0" y1="-22" x2="0" y2="22"/>
+              <circle class="dot-c" cx="17" cy="-17" r="2"/>
+              <circle class="dot-c" cx="-17" cy="17" r="2"/>
+            </svg>
+          </div>
+          <div class="inner">
+            <div class="card-num">[ <span class="accent">05</span> / 06 ]</div>
+            <h3>Open World SDK</h3>
+            <div class="card-meta">Expedia Group · JVM · DX</div>
+            <p class="card-desc">A JVM SDK enabling third-party developers to build on the Expedia DEVHub platform. Built the SDK's full CI/CD cycle and contributed to the Kotlin + GraphQL BFF that powered DEVHub's data orchestration layer.</p>
+            <div class="card-tags">
+              <span class="tag">SDK</span>
+              <span class="tag">Kotlin</span>
+              <span class="tag">DX</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-3d reveal" data-tilt>
+          <div class="card-orb" aria-hidden="true">
+            <svg viewBox="-30 -30 60 60">
+              <circle class="ring" r="26"/>
+              <circle class="ring" cx="12" cy="0" r="14"/>
+              <circle class="ring" cx="-12" cy="0" r="14"/>
+              <circle class="dot-c" r="3"/>
+            </svg>
+          </div>
+          <div class="inner">
+            <div class="card-num">[ <span class="accent">06</span> / 06 ]</div>
+            <h3>Arabic RAG Knowledge Base</h3>
+            <div class="card-meta">AI/ML · Vector Stores · Arabic NLP</div>
+            <p class="card-desc">A vector-store-optimized knowledge base for a Jordanian government call center: 55 entities and 1,200+ subcategories converted from raw Excel into colloquial-Arabic-aware Markdown chunks. Paired with a tuned Arabic classification prompt for the retrieval pipeline.</p>
+            <div class="card-tags">
+              <span class="tag">RAG</span>
+              <span class="tag">LLM</span>
+              <span class="tag">Arabic</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== STACK ====== -->
+  <section class="section" id="stack">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">06</span>&nbsp;◇&nbsp;Stack</div>
+      <h2 class="reveal">Tools I <em>reach for</em>.</h2>
+
+      <div class="stack-wrap">
+        <div class="stack-cells reveal">
+          <div class="stack-cell">
+            <h4>Languages</h4>
+            <ul>
+              <li>Node.js · TypeScript · JavaScript</li>
+              <li>Java · Kotlin</li>
+              <li>SQL · Python</li>
+            </ul>
+          </div>
+          <div class="stack-cell">
+            <h4>Frontend</h4>
+            <ul>
+              <li>React · TanStack Router</li>
+              <li>Micro-frontends</li>
+              <li>Modern bundling · CSS</li>
+            </ul>
+          </div>
+          <div class="stack-cell">
+            <h4>Backend &amp; APIs</h4>
+            <ul>
+              <li>Spring Boot · Express · Node.js</li>
+              <li>GraphQL · REST · gRPC</li>
+              <li>Event-driven microservices</li>
+            </ul>
+          </div>
+          <div class="stack-cell">
+            <h4>Distributed</h4>
+            <ul>
+              <li>Kafka (Streams · Producers)</li>
+              <li>Redis · Pub/Sub</li>
+              <li>WebRTC (LiveKit)</li>
+            </ul>
+          </div>
+          <div class="stack-cell">
+            <h4>Data</h4>
+            <ul>
+              <li>PostgreSQL · MongoDB</li>
+              <li>ClickHouse · Redis</li>
+              <li>Vector stores · RAG</li>
+            </ul>
+          </div>
+          <div class="stack-cell">
+            <h4>Infra &amp; DevOps</h4>
+            <ul>
+              <li>Docker · Kubernetes (K3s)</li>
+              <li>ArgoCD · Helm · GitHub Actions</li>
+              <li>AWS · SigNoz observability</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="constellation reveal" aria-label="Interactive technology constellation — drag to rotate">
+          <div class="constellation-inner" id="constellation"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== EXPERIENCE ====== -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">07</span>&nbsp;◇&nbsp;Experience</div>
+      <h2 class="reveal">Where I've <em>shipped</em>.</h2>
+
+      <div class="exp-item reveal">
+        <div class="exp-period">2023 — Present</div>
+        <div>
+          <h3>Careem</h3>
+          <div class="exp-role">Senior Software Engineer · L10</div>
+          <ul>
+            <li>Led the migration from synchronous REST chains to Kafka Streams across the billing platform, eliminating cascading failures across Rides, Food, and Quik.</li>
+            <li>Spearheaded the conversion of critical internal REST APIs to gRPC — cut payload size and latency between high-traffic microservices.</li>
+            <li>Co-initiated the "Golden Path" CI/CD framework now mandatory for all web apps at Careem.</li>
+            <li>Authored a Shared Billing Library that enabled the Superportal team to ship User Management in under a month — a 300% velocity boost.</li>
+            <li>Designed Business Selector logic for many-to-many enterprise-to-partner relationships; led full-stack delivery of the Careem for Business portal.</li>
+            <li>Recognized as the #1 organization-wide AI power user — automated 80%+ of test coverage and accelerated legacy migrations.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-period">Ongoing</div>
+        <div>
+          <h3>Analytick<span class="sub accent">— Tech Lead</span></h3>
+          <div class="exp-role">Tech Lead · Architect · Squad of 4 Engineers + Product/Sales</div>
+          <ul>
+            <li>Lead a cross-functional squad — four engineers plus product and sales — from architecture through to production. The platform now serves as Jordan's national call center, handling hundreds of thousands of citizen interactions every day.</li>
+            <li>Architected the multi-tenant SaaS foundation: subdomain-isolated tenants, embedded analytics, real-time meeting integration (LiveKit), and a self-hosted observability stack.</li>
+            <li>Own production operations on a self-hosted K3s cluster with ArgoCD GitOps — including incident recovery (MongoDB HA quorum loss after a secret regeneration: diagnosed, recovered, and permanently pinned).</li>
+            <li>Shipped multi-tenant subdomain routing in TanStack Router via a hybrid URL-rewrite + custom navigation hook pattern.</li>
+            <li>Built and tuned the self-hosted observability stack (SigNoz · ClickHouse · Metabase) under real resource constraints.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-period">2022 — 2023</div>
+        <div>
+          <h3>Expedia Group<span class="sub">— via Aspire Services</span></h3>
+          <div class="exp-role">Full-Stack Developer</div>
+          <ul>
+            <li>Built the Open World SDK for JVM (Kotlin/Java), enabling third-party developers to ship on the Expedia platform.</li>
+            <li>Engineered the SDK's CI/CD cycle and contributed to the Kotlin + GraphQL BFF powering the DEVHub data layer.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-period">2020 — 2022</div>
+        <div>
+          <h3>Telelogx</h3>
+          <div class="exp-role">Full-Stack Developer</div>
+          <ul>
+            <li>Designed and implemented a binary protocol over TCP for hardware diagnostic software — low-level transmission tuned for network fault detection.</li>
+            <li>Spearheaded the company's transition to Node.js and Docker, moving from monolith to containerized microservices.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== EDUCATION ====== -->
+  <section class="section" id="education">
+    <div class="container">
+      <div class="section-label reveal"><span class="section-num">08</span>&nbsp;◇&nbsp;Education &amp; Languages</div>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <div class="edu-meta">2017 — 2021</div>
+          <h4>Bachelor of Computer Engineering</h4>
+          <p>University of Jordan</p>
+          <p class="body">GPA 3.1 (Very Good). Strong foundation in computer architecture, networks, and systems — applied directly to current work on distributed systems and low-level protocols.</p>
+        </div>
+        <div class="edu-card reveal">
+          <div class="edu-meta">Working Languages</div>
+          <h4>Arabic &amp; English</h4>
+          <p>Native Arabic · Professional English</p>
+          <p class="body">Comfortable shipping in either, including Arabic-language NLP work and RTL-aware UI development.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </main>
 
-<footer id="footer">
-    <div class="container">
-        <h3>Hamza Nael</h3>
-        <div class="social-links">
-            <a href="https://www.facebook.com/h.nael99" class="facebook"><i class="bx bxl-facebook"></i></a>
-            <a href="https://www.instagram.com/hamza_nael99" class="instagram"><i class="bx bxl-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/hamza-nael-53a8081b3" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-        </div>
+<!-- ====== FOOTER ====== -->
+<footer id="contact">
+  <div class="container">
+    <p class="footer-cta reveal">Let's <em>build</em> something.</p>
+    <div class="footer-links reveal">
+      <a class="footer-link" href="mailto:Hnael99@gmail.com">Hnael99@gmail.com</a>
+      <a class="footer-link" href="tel:+962790558636">+962 79 055 8636</a>
     </div>
+    <div class="footer-meta">
+      <span>HAMZA NAEL · AMMAN · JORDAN</span>
+      <span>↑ ↑ ↓ ↓ ← → ← → B A</span>
+    </div>
+  </div>
 </footer>
 
-<div id="preloader"></div>
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
+<div class="toast" id="toast">↑ ↑ ↓ ↓ ← → ← → B A &nbsp;·&nbsp; +1 LIFE</div>
 
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-<script src="public/assets/vendor/purecounter/purecounter.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script src="public/assets/vendor/typed.js/typed.min.js"></script>
-<script src="public/assets/vendor/waypoints/noframework.waypoints.js"></script>
-<script src="public/assets/js/main.js"></script>
+<!-- ====== Hidden CV (rendered to PDF) ====== -->
+<div class="cv-print" id="cv-print" aria-hidden="true">
+  <h1>Hamza Nael</h1>
+  <div class="cv-role">Senior Software Engineer</div>
+  <div class="cv-contact">
+    <span><b>Email</b>Hnael99@gmail.com</span>
+    <span><b>Phone</b>+962 79 055 8636</span>
+    <span><b>Location</b>Amman, Jordan</span>
+    <span><b>Open to</b>Remote · EU · MENA · Relocation</span>
+  </div>
 
+  <h2>Summary</h2>
+  <p class="cv-summary">Senior software engineer with six years across event-driven distributed systems, full-stack delivery, and developer platforms. Currently at Careem, where I lead the migration from synchronous APIs to Kafka Streams and gRPC, and recognized as the organization's #1 AI power user. Also tech lead on Analytick — a multi-tenant SaaS I architected and delivered with a cross-functional squad of four engineers plus product and sales. It now powers Jordan's national call center, handling hundreds of thousands of citizen interactions every day.</p>
+
+  <h2>Leadership</h2>
+  <div class="cv-entry">
+    <div class="cv-entry-title">Tech Lead &amp; Architect — Analytick</div>
+    <div class="cv-entry-sub">Squad of four engineers plus product and sales</div>
+    <ul>
+      <li>Led architecture and delivery of a multi-tenant SaaS now serving Jordan's national call center.</li>
+      <li>Hundreds of thousands of citizen interactions handled every day.</li>
+    </ul>
+  </div>
+  <div class="cv-entry">
+    <div class="cv-entry-title">Migration Lead — Careem</div>
+    <div class="cv-entry-sub">Sync REST → Kafka Streams across the billing platform</div>
+    <ul>
+      <li>Coordinated cross-vertical work spanning Rides, Food, and Quik to eliminate cascading failures.</li>
+      <li>Drove the parallel REST → gRPC conversion of high-traffic internal services.</li>
+    </ul>
+  </div>
+  <div class="cv-entry">
+    <div class="cv-entry-title">Platform Initiative — Careem</div>
+    <div class="cv-entry-sub">Co-initiated the "Golden Path" CI/CD framework — now mandatory at Careem</div>
+    <ul>
+      <li>Authored a Shared Billing Library that unlocked a 300% velocity boost for the Superportal team (User Management shipped in under a month).</li>
+    </ul>
+  </div>
+  <div class="cv-entry">
+    <div class="cv-entry-title">Production Operations — Analytick</div>
+    <div class="cv-entry-sub">Self-hosted K3s with ArgoCD GitOps</div>
+    <ul>
+      <li>Owned production ops; diagnosed and recovered a MongoDB HA quorum loss after a secret regeneration, then permanently pinned the configuration.</li>
+    </ul>
+  </div>
+
+  <h2>Technical Capabilities</h2>
+  <div class="cv-skills cv-grid-2">
+    <p><b>Distributed Systems</b><br>Event-driven Kafka Streams, REST → gRPC migration, eventual consistency across cross-vertical services.</p>
+    <p><b>Multi-Tenant SaaS</b><br>Subdomain-isolated tenants, TanStack hybrid URL-rewrite routing, embedded analytics, real-time meeting integration.</p>
+    <p><b>Real-Time Systems</b><br>Self-hosted LiveKit/WebRTC at national scale, NAT hairpin &amp; loopback debugging, binary TCP protocols.</p>
+    <p><b>Production Ops</b><br>K3s + ArgoCD GitOps, Helm, GitHub Actions, Jenkins, self-hosted observability (SigNoz · ClickHouse · Metabase).</p>
+    <p><b>Full-Stack Delivery</b><br>Spring Boot + TanStack Router + Postgres/Mongo; micro-frontend C4B portal; Kotlin + GraphQL BFFs.</p>
+    <p><b>Platform &amp; DX</b><br>Open World SDK (JVM), Shared Billing Library, Golden Path CI/CD framework.</p>
+  </div>
+
+  <h2>AI Practice</h2>
+  <p style="font-size: 10pt; color: #2a2a2a; margin-bottom: 6px;"><b>Architect &amp; builder of the Analytick AI agent platform.</b> A production AI service running across multi-tenant deployments — handling chat workflows, call transcription, and AI-driven QA evaluation.</p>
+  <ul>
+    <li>Multi-provider LLM abstraction (OpenAI, Google Vertex Gemini, OpenRouter, DeepSeek, self-hosted Ollama) via factory/registry pattern with per-tenant API keys encrypted at rest.</li>
+    <li>Nine first-class agent tools — ticket query/creation/metadata, conversation history, document search, plus bilingual NSR entity/service/sector lookups for the Jordanian government use case.</li>
+    <li>Full MCP (Model Context Protocol) support — agents load external tool servers via STDIO or SSE transports.</li>
+    <li>pgvector-backed RAG with org_id + agent_id filters for multi-tenant isolation; Vertex AI embeddings; top-K retrieval at 0.7 similarity threshold; bidirectional PDF text handling for Arabic content.</li>
+    <li>All LLM calls and tool invocations recorded to MongoDB session-flow collection for audit. Built on Spring AI · Kotlin · virtual threads · OpenTelemetry.</li>
+    <li>Recognized as the <b>#1 organization-wide AI power user</b> at Careem — automated 80%+ of new test coverage and accelerated legacy migrations.</li>
+  </ul>
+
+  <h2>Experience</h2>
+
+  <div class="cv-entry">
+    <div class="cv-entry-head">
+      <span class="cv-entry-title">Careem</span>
+      <span class="cv-entry-date">2023 — Present</span>
+    </div>
+    <div class="cv-entry-sub">Senior Software Engineer · L10</div>
+    <ul>
+      <li>Led migration from synchronous REST chains to Kafka Streams across the billing platform.</li>
+      <li>Spearheaded REST → gRPC conversion of high-traffic internal services — cut payload size and latency.</li>
+      <li>Co-initiated the "Golden Path" CI/CD framework — now mandatory for all web apps at Careem.</li>
+      <li>Authored a Shared Billing Library enabling Superportal to ship User Management in under a month (300% velocity boost).</li>
+      <li>Designed Business Selector logic for many-to-many enterprise-to-partner relationships; led full-stack delivery of the Careem for Business portal using micro-frontend architecture.</li>
+      <li>Recognized as the #1 organization-wide AI power user — automated 80%+ of test coverage and accelerated legacy migrations.</li>
+    </ul>
+  </div>
+
+  <div class="cv-entry">
+    <div class="cv-entry-head">
+      <span class="cv-entry-title">Analytick — Tech Lead</span>
+      <span class="cv-entry-date">Ongoing</span>
+    </div>
+    <div class="cv-entry-sub">Tech Lead · Architect · Squad of 4 Engineers + Product/Sales</div>
+    <ul>
+      <li>Lead a cross-functional squad from architecture to production; platform serves as Jordan's national call center.</li>
+      <li>Architected the multi-tenant SaaS foundation: subdomain-isolated tenants, embedded analytics, LiveKit real-time integration, self-hosted observability.</li>
+      <li>Own production operations on a self-hosted K3s cluster with ArgoCD GitOps; recovered MongoDB HA quorum loss.</li>
+      <li>Shipped multi-tenant subdomain routing in TanStack Router via a hybrid URL-rewrite + custom navigation hook pattern.</li>
+      <li>Built the self-hosted observability stack (SigNoz · ClickHouse · Metabase).</li>
+    </ul>
+  </div>
+
+  <div class="cv-entry">
+    <div class="cv-entry-head">
+      <span class="cv-entry-title">Expedia Group <span style="font-weight: 400; color: #6a6a6a;">— via Aspire Services</span></span>
+      <span class="cv-entry-date">2022 — 2023</span>
+    </div>
+    <div class="cv-entry-sub">Full-Stack Developer</div>
+    <ul>
+      <li>Built the Open World SDK for JVM (Kotlin/Java), enabling third-party developers to ship on the Expedia platform.</li>
+      <li>Engineered the SDK's CI/CD cycle and contributed to the Kotlin + GraphQL BFF powering the DEVHub data layer.</li>
+    </ul>
+  </div>
+
+  <div class="cv-entry">
+    <div class="cv-entry-head">
+      <span class="cv-entry-title">Telelogx</span>
+      <span class="cv-entry-date">2020 — 2022</span>
+    </div>
+    <div class="cv-entry-sub">Full-Stack Developer</div>
+    <ul>
+      <li>Designed and implemented a binary TCP protocol for hardware diagnostic software — low-level transmission tuned for network fault detection.</li>
+      <li>Spearheaded the transition to Node.js and Docker, moving from monolith to containerized microservices.</li>
+    </ul>
+  </div>
+
+  <h2>Selected Projects</h2>
+  <div class="cv-skills">
+    <p><b>Analytick</b>Multi-tenant SaaS — Jordan's national call center. TypeScript · React · TanStack Router · Spring Boot · MongoDB · PostgreSQL · Redis · ClickHouse · K3s · ArgoCD.</p>
+    <p><b>Real-Time Meeting</b>Self-hosted LiveKit/WebRTC for the national call center's live agent operations.</p>
+    <p><b>Event-Driven Billing</b>Careem — Kafka Streams + gRPC, cross-vertical (Rides/Food/Quik).</p>
+    <p><b>Careem for Business</b>Full-stack micro-frontend portal — many-to-many B2B logic.</p>
+    <p><b>Open World SDK</b>Expedia — JVM SDK + Kotlin/GraphQL BFF for DEVHub.</p>
+    <p><b>Arabic RAG Knowledge Base</b>Vector-store-optimized KB for a Jordanian government call center.</p>
+  </div>
+
+  <h2>Technical Stack</h2>
+  <div class="cv-skills cv-grid-2">
+    <p><b>Languages</b>Node.js · TypeScript · JavaScript · Java · Kotlin · SQL · Python</p>
+    <p><b>Frontend</b>React · TanStack Router · Micro-frontends</p>
+    <p><b>Backend &amp; APIs</b>Spring Boot · Express · GraphQL · REST · gRPC (Protobuf)</p>
+    <p><b>Distributed</b>Kafka (Streams · Producers/Consumers) · Redis · Pub/Sub · WebRTC (LiveKit)</p>
+    <p><b>Data</b>PostgreSQL · MongoDB · ClickHouse · Redis · Vector stores · RAG pipelines</p>
+    <p><b>Infra &amp; DevOps</b>Docker · Kubernetes (K3s) · ArgoCD · Helm · GitHub Actions · Jenkins · AWS · SigNoz</p>
+  </div>
+
+  <h2>Education &amp; Languages</h2>
+  <div class="cv-entry">
+    <div class="cv-entry-head">
+      <span class="cv-entry-title">Bachelor of Computer Engineering</span>
+      <span class="cv-entry-date">2017 — 2021</span>
+    </div>
+    <div class="cv-entry-sub">University of Jordan · GPA 3.1 (Very Good)</div>
+    <p style="font-size: 10pt; color: #2a2a2a;">Strong foundation in computer architecture, networks, and systems — applied directly to current work on distributed systems and low-level protocols.</p>
+  </div>
+  <p style="font-size: 10pt; color: #2a2a2a; margin-top: 6px;"><b style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9.5pt; text-transform: uppercase; letter-spacing: 0.04em; color: #0d0d0d;">Languages</b> &nbsp; Native Arabic · Professional English — including Arabic-language NLP work and RTL-aware UI development.</p>
+</div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ====== Local time in Amman ====== */
+  function tick() {
+    const now = new Date();
+    const t = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Amman', hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+    const el = document.getElementById('time');
+    if (el) el.textContent = t + ' AMM';
+  }
+  tick();
+  setInterval(tick, 30000);
+
+  /* ====== Reveal on scroll ====== */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const siblings = Array.from(entry.target.parentElement?.querySelectorAll('.reveal') || []);
+        const idx = siblings.indexOf(entry.target);
+        entry.target.style.transitionDelay = (idx > 0 && idx < 6 ? (idx * 70) : 0) + 'ms';
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* Hero title reveal */
+  requestAnimationFrame(() => {
+    document.getElementById('hero-title')?.classList.add('in');
+  });
+
+  /* ====== Active nav highlighting ====== */
+  const navLinks = document.querySelectorAll('.topbar-nav a');
+  const sections = ['about', 'leadership', 'capabilities', 'ai', 'work', 'experience', 'contact'].map(id => document.getElementById(id)).filter(Boolean);
+  const navIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => navIo.observe(s));
+
+  /* ====== 3D Background Scene ====== */
+  (function initBackground() {
+    if (reduceMotion || !window.THREE) return;
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+    camera.position.set(0, 0, 8);
+
+    /* --- Particle sphere (the network) --- */
+    const POINTS = 600;
+    const R = 3.2;
+    const basePos = new Float32Array(POINTS * 3);
+    const pos = new Float32Array(POINTS * 3);
+    for (let i = 0; i < POINTS; i++) {
+      const k = i + 0.5;
+      const phi = Math.acos(1 - 2 * k / POINTS);
+      const theta = Math.PI * (1 + Math.sqrt(5)) * k;
+      const x = R * Math.cos(theta) * Math.sin(phi);
+      const y = R * Math.sin(theta) * Math.sin(phi);
+      const z = R * Math.cos(phi);
+      basePos[i*3] = x; basePos[i*3+1] = y; basePos[i*3+2] = z;
+      pos[i*3] = x; pos[i*3+1] = y; pos[i*3+2] = z;
+    }
+    const pGeom = new THREE.BufferGeometry();
+    pGeom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const pMat = new THREE.PointsMaterial({
+      color: 0xc5f76b,
+      size: 0.038,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const points = new THREE.Points(pGeom, pMat);
+    scene.add(points);
+
+    /* --- Connecting lines (k-nearest) --- */
+    const linePts = [];
+    const K = 3;
+    for (let i = 0; i < POINTS; i++) {
+      const ds = [];
+      const ax = basePos[i*3], ay = basePos[i*3+1], az = basePos[i*3+2];
+      for (let j = 0; j < POINTS; j++) {
+        if (j === i) continue;
+        const bx = basePos[j*3], by = basePos[j*3+1], bz = basePos[j*3+2];
+        ds.push([(ax-bx)**2 + (ay-by)**2 + (az-bz)**2, j]);
+      }
+      ds.sort((a,b)=>a[0]-b[0]);
+      for (let n = 0; n < K; n++) {
+        const j = ds[n][1];
+        if (j > i) linePts.push(ax, ay, az, basePos[j*3], basePos[j*3+1], basePos[j*3+2]);
+      }
+    }
+    const lineGeom = new THREE.BufferGeometry();
+    lineGeom.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePts), 3));
+    const lineMat = new THREE.LineBasicMaterial({ color: 0xc5f76b, transparent: true, opacity: 0.16 });
+    const lines = new THREE.LineSegments(lineGeom, lineMat);
+    scene.add(lines);
+
+    /* --- Inner wireframe icosahedron (depth) --- */
+    const innerGeom = new THREE.IcosahedronGeometry(2.6, 1);
+    const innerMat = new THREE.MeshBasicMaterial({ color: 0xc5f76b, wireframe: true, transparent: true, opacity: 0.06 });
+    const inner = new THREE.Mesh(innerGeom, innerMat);
+    scene.add(inner);
+
+    /* --- Outer halo torus knot (subtle) --- */
+    const knotGeom = new THREE.TorusKnotGeometry(4.4, 0.04, 100, 8);
+    const knotMat = new THREE.MeshBasicMaterial({ color: 0xc5f76b, transparent: true, opacity: 0.18 });
+    const knot = new THREE.Mesh(knotGeom, knotMat);
+    knot.rotation.x = Math.PI / 4;
+    scene.add(knot);
+
+    /* --- Wandering "packets" --- */
+    const PK = 80;
+    const pkPos = new Float32Array(PK * 3);
+    const pkVel = new Float32Array(PK * 3);
+    for (let i = 0; i < PK; i++) {
+      pkPos[i*3]   = (Math.random()-0.5) * 8;
+      pkPos[i*3+1] = (Math.random()-0.5) * 8;
+      pkPos[i*3+2] = (Math.random()-0.5) * 8;
+      pkVel[i*3]   = (Math.random()-0.5) * 0.003;
+      pkVel[i*3+1] = (Math.random()-0.5) * 0.003;
+      pkVel[i*3+2] = (Math.random()-0.5) * 0.003;
+    }
+    const pkGeom = new THREE.BufferGeometry();
+    pkGeom.setAttribute('position', new THREE.BufferAttribute(pkPos, 3));
+    const pkMat = new THREE.PointsMaterial({
+      color: 0xece9e0,
+      size: 0.02,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const packets = new THREE.Points(pkGeom, pkMat);
+    scene.add(packets);
+
+    /* --- Resize --- */
+    function resize() {
+      const w = window.innerWidth, h = window.innerHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    /* --- Mouse parallax --- */
+    let targetRotX = 0, targetRotY = 0;
+    let curRotX = 0, curRotY = 0;
+    window.addEventListener('pointermove', (e) => {
+      const nx = (e.clientX / window.innerWidth) * 2 - 1;
+      const ny = (e.clientY / window.innerHeight) * 2 - 1;
+      targetRotY = nx * 0.35;
+      targetRotX = ny * 0.22;
+    }, { passive: true });
+
+    /* --- Scroll-driven scene transforms --- */
+    let scrollProgress = 0;
+    function updateScroll() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProgress = Math.min(1, Math.max(0, window.scrollY / max));
+    }
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    updateScroll();
+
+    /* --- Loop --- */
+    let t = 0;
+    function loop() {
+      t += 0.005;
+      curRotX += (targetRotX - curRotX) * 0.05;
+      curRotY += (targetRotY - curRotY) * 0.05;
+
+      // Camera glides slightly inward on scroll, tilts up
+      camera.position.z = 8 - scrollProgress * 1.6;
+      camera.position.y = -scrollProgress * 0.8;
+      camera.lookAt(0, 0, 0);
+
+      const baseRot = t * 0.18 + scrollProgress * Math.PI * 0.6;
+
+      points.rotation.x = curRotX + scrollProgress * 0.4;
+      points.rotation.y = curRotY + baseRot;
+      lines.rotation.x = points.rotation.x;
+      lines.rotation.y = points.rotation.y;
+      inner.rotation.x = points.rotation.x * 0.5;
+      inner.rotation.y = points.rotation.y * 0.7;
+      knot.rotation.y = -baseRot * 0.8;
+      knot.rotation.z = scrollProgress * 0.6;
+
+      // Breathing
+      const posAttr = pGeom.attributes.position.array;
+      const scale = 1 + scrollProgress * 0.15;
+      for (let i = 0; i < POINTS; i++) {
+        const bx = basePos[i*3], by = basePos[i*3+1], bz = basePos[i*3+2];
+        const wave = 1 + Math.sin(t * 1.3 + i * 0.35) * 0.014;
+        posAttr[i*3]   = bx * wave * scale;
+        posAttr[i*3+1] = by * wave * scale;
+        posAttr[i*3+2] = bz * wave * scale;
+      }
+      pGeom.attributes.position.needsUpdate = true;
+
+      // Packets drift
+      const pkArr = pkGeom.attributes.position.array;
+      for (let i = 0; i < PK; i++) {
+        pkArr[i*3]   += pkVel[i*3];
+        pkArr[i*3+1] += pkVel[i*3+1];
+        pkArr[i*3+2] += pkVel[i*3+2];
+        for (let k = 0; k < 3; k++) {
+          if (Math.abs(pkArr[i*3+k]) > 4.2) pkVel[i*3+k] *= -1;
+        }
+      }
+      pkGeom.attributes.position.needsUpdate = true;
+
+      // Opacity fade near footer
+      const fade = 1 - Math.max(0, scrollProgress - 0.85) * 6;
+      pMat.opacity = 0.85 * fade;
+      lineMat.opacity = 0.16 * fade;
+      pkMat.opacity = 0.5 * fade;
+      knotMat.opacity = 0.18 * fade;
+      innerMat.opacity = 0.06 * fade;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+
+  /* ====== 3D Card Tilt ====== */
+  (function initCardTilt() {
+    if (reduceMotion) return;
+    function bind(selector, maxRX, maxRY) {
+      document.querySelectorAll(selector).forEach(card => {
+        let raf;
+        function onMove(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const rx = ((y - cy) / cy) * -maxRX;
+          const ry = ((x - cx) / cx) * maxRY;
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+            card.style.setProperty('--mx', x + 'px');
+            card.style.setProperty('--my', y + 'px');
+          });
+        }
+        function onLeave() {
+          cancelAnimationFrame(raf);
+          card.style.transform = '';
+        }
+        card.addEventListener('pointermove', onMove);
+        card.addEventListener('pointerleave', onLeave);
+      });
+    }
+    bind('[data-tilt]', 6, 8);
+    bind('[data-tilt-soft]', 3, 4);
+  })();
+
+  /* ====== 3D Tech Constellation (CSS) ====== */
+  (function initConstellation() {
+    const techs = [
+      'TypeScript', 'React', 'Node.js', 'Java', 'Kotlin',
+      'Spring Boot', 'Kafka', 'gRPC', 'GraphQL', 'PostgreSQL',
+      'MongoDB', 'ClickHouse', 'Redis', 'LiveKit', 'WebRTC',
+      'Docker', 'K3s', 'ArgoCD', 'Helm', 'SigNoz',
+      'AWS', 'Python', 'TanStack', 'JasperReports'
+    ];
+    const container = document.getElementById('constellation');
+    if (!container) return;
+    const N = techs.length;
+    const R = 170;
+
+    const tags = [];
+    for (let i = 0; i < N; i++) {
+      const k = i + 0.5;
+      const phi = Math.acos(1 - 2 * k / N);
+      const theta = Math.PI * (1 + Math.sqrt(5)) * k;
+      const x = R * Math.cos(theta) * Math.sin(phi);
+      const y = R * Math.sin(theta) * Math.sin(phi);
+      const z = R * Math.cos(phi);
+      const el = document.createElement('span');
+      el.className = 'tag-3d';
+      el.textContent = techs[i];
+      el.style.transform = `translate3d(${x}px, ${y}px, ${z}px) translate(-50%, -50%)`;
+      container.appendChild(el);
+      tags.push({ el, x, y, z });
+    }
+
+    let rotX = -10, rotY = 0;
+    let targetX = -10, targetY = 0;
+    let dragging = false;
+    let startX = 0, startY = 0, startRotX = 0, startRotY = 0;
+    let lastInteract = Date.now();
+    let autoRotate = true;
+
+    container.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      autoRotate = false;
+      lastInteract = Date.now();
+      startX = e.clientX; startY = e.clientY;
+      startRotX = targetX; startRotY = targetY;
+      container.classList.add('dragging');
+      container.setPointerCapture(e.pointerId);
+    });
+    container.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      targetY = startRotY + (e.clientX - startX) * 0.4;
+      targetX = startRotX - (e.clientY - startY) * 0.4;
+    });
+    function endDrag() {
+      dragging = false;
+      container.classList.remove('dragging');
+      lastInteract = Date.now();
+    }
+    container.addEventListener('pointerup', endDrag);
+    container.addEventListener('pointercancel', endDrag);
+
+    function loop() {
+      if (!reduceMotion) {
+        if (autoRotate || (Date.now() - lastInteract > 2400)) {
+          autoRotate = true;
+          targetY += 0.15;
+        }
+        rotX += (targetX - rotX) * 0.08;
+        rotY += (targetY - rotY) * 0.08;
+        container.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+        // Per-tag depth fade
+        const cosX = Math.cos(rotX * Math.PI / 180);
+        const sinX = Math.sin(rotX * Math.PI / 180);
+        const cosY = Math.cos(rotY * Math.PI / 180);
+        const sinY = Math.sin(rotY * Math.PI / 180);
+        tags.forEach(tg => {
+          // depth = transformed z component
+          const xz = tg.x * cosY + tg.z * sinY;
+          const z = -tg.x * sinY + tg.z * cosY;
+          const finalZ = tg.y * sinX + z * cosX;
+          const norm = (finalZ + R) / (2 * R);
+          tg.el.style.opacity = (0.35 + norm * 0.65).toFixed(2);
+          tg.el.style.filter = `blur(${(1 - norm) * 1.2}px)`;
+          tg.el.style.zIndex = Math.round(norm * 100);
+        });
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+
+  /* ====== Download CV (auto-generate PDF) ====== */
+  (function initCVDownload() {
+    const btn = document.getElementById('download-cv');
+    const label = document.getElementById('download-cv-label');
+    const cv = document.getElementById('cv-print');
+    if (!btn || !cv || !window.html2pdf) return;
+
+    btn.addEventListener('click', async () => {
+      const original = label.textContent;
+      label.textContent = 'Generating…';
+      btn.disabled = true;
+      try {
+        await html2pdf().set({
+          margin: 0,
+          filename: 'Hamza-Nael-CV.pdf',
+          image: { type: 'jpeg', quality: 0.96 },
+          html2canvas: {
+            scale: 2,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false,
+            windowWidth: 794,
+            onclone: (clonedDoc) => {
+              const c = clonedDoc.getElementById('cv-print');
+              if (c) {
+                c.style.position = 'static';
+                c.style.left = 'auto';
+                c.style.top = 'auto';
+                c.style.transform = 'none';
+                c.style.display = 'block';
+                c.style.visibility = 'visible';
+              }
+            }
+          },
+          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['css', 'legacy'], avoid: ['.cv-entry', 'li', 'h2'] }
+        }).from(cv).save();
+        label.textContent = 'Downloaded ✓';
+        setTimeout(() => { label.textContent = original; btn.disabled = false; }, 1800);
+      } catch (err) {
+        console.error('CV PDF generation failed:', err);
+        label.textContent = 'Failed — retry';
+        setTimeout(() => { label.textContent = original; btn.disabled = false; }, 2200);
+      }
+    });
+  })();
+
+  /* ====== Konami code ====== */
+  const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
+  let pos = 0;
+  document.addEventListener('keydown', (e) => {
+    if (e.code === code[pos]) {
+      pos++;
+      if (pos === code.length) {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3200);
+        pos = 0;
+      }
+    } else {
+      pos = (e.code === code[0]) ? 1 : 0;
+    }
+  });
+</script>
 </body>
+</html>
